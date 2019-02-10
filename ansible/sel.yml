@@ -27,7 +27,7 @@
       copy: src=/home/golan/Documents/test.py dest=/home/golan/Documents/test.py owner=golan group=golan mode=755
 
     - name: Execute script   
-      command: sudo python3 /home/golan/Documents/test.py
+      command: python3 /home/golan/Documents/test.py
       register: out
       ignore_errors: yes
 
