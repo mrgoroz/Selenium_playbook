@@ -1,0 +1,39 @@
+---
+- name: Setting infrastructure for selenium testing with python
+  hosts: localhost
+  tasks:
+
+    - name: install selenium in python
+      command: pip3 install selenium
+      register: res
+
+    - name: Install list of packages
+      apt: name={{item}} state=present
+      with_items:
+          - firefox
+
+    - name: Download and unarchive Selenium
+      unarchive:
+        src: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+    
+    - name: Ansible delete file example
+      file:
+        path: /home/golan/Documents/geckodriver-v0.24.0-linux64.tar.gz
+        state: absent
+
+    - name: Copy file to server
+      copy: src=/home/golan/Documents/test.py dest=/home/golan/Documents/test.py owner=golan group=golan mode=755
+
+    - name: Execute script   
+      command: sudo python3 /home/golan/Documents/test.py
+      register: out
+      ignore_errors: yes
+
+    - debug: var=out.stdout
+    
+    - name: Delete the test file
+      file:
+        path: /home/golan/Documents/test2.py
+        state: absent
