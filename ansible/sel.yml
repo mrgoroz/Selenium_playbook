@@ -18,16 +18,16 @@
         dest: /usr/local/bin
         remote_src: yes
     
-    - name: Ansible delete file example
+    - name: Ansible delete file
       file:
         path: /home/golan/Documents/geckodriver-v0.24.0-linux64.tar.gz
         state: absent
 
     - name: Copy file to server
-      copy: src=/home/golan/Documents/test.py dest=/home/golan/Documents/test.py owner=golan group=golan mode=755
+      copy: src=/home/golan/Documents/test.py dest=/home/golan/Documents/test2.py owner=golan group=golan mode=755
 
     - name: Execute script   
-      command: python3 /home/golan/Documents/test.py
+      command: python3 /home/golan/Documents/test2.py
       register: out
       ignore_errors: yes
 
