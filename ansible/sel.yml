@@ -4,7 +4,7 @@
   tasks:
 
     #TODO add with_items
-    - name: Install selenium in python
+    - name: Install Selenium package in python
       pip: 
         name: selenium
       executable: pip-3
@@ -36,6 +36,7 @@
         group: golan 
         mode: 755
 
+    #TODO problem executing the script
     - name: Execute script   
       command: python3 /home/golan/Documents/test2.py
       register: out
@@ -43,6 +44,7 @@
 
     - debug: var=out.stdout
     
+    #TODO add variable to the file path
     - name: Delete the test file
       file:
         path: /home/golan/Documents/test2.py
