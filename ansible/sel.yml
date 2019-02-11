@@ -50,7 +50,8 @@
         group: golan 
         mode: 0777
 
-    - name: Execute script   
+    #TODO delete this folder after the playbook is done
+    - name: See the current user  
       command: id
       become: yes
       become_user: golan
@@ -58,7 +59,7 @@
       register: out
       ignore_errors: yes
 
-    #TODO problem executing the script
+    #TODO problem executing the script- possibly problem with perms
     - name: Execute script   
       command: python3 /home/golan/Documents/test2.py
       #register: out
