@@ -16,11 +16,25 @@
 
     #TODO add a var instead of the selenium path
     - name: Download and unarchive Selenium
+      become: true
+      become_user: root
+      become_method: su
       unarchive:
         src: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
         dest: /usr/local/bin
         remote_src: yes
-    
+        mode: 0777
+
+    - name: Change the geckodriver permissions
+      file:
+        path: /usr/local/bin/geckodriver
+        # become: true
+        # become_user: root
+        # become_method: su
+        owner: golan
+        group: golan
+        mode: 0777 
+
     #TODO add a var instead of the selenium path 
     - name: Ansible delete file
       file:
@@ -34,12 +48,20 @@
         dest: /home/golan/Documents/test2.py
         owner: golan 
         group: golan 
-        mode: 755
+        mode: 0777
+
+    - name: Execute script   
+      command: id
+      become: yes
+      become_user: golan
+      become_method: su
+      register: out
+      ignore_errors: yes
 
     #TODO problem executing the script
     - name: Execute script   
       command: python3 /home/golan/Documents/test2.py
-      register: out
+      #register: out
       ignore_errors: yes
 
     - debug: var=out.stdout
@@ -48,4 +70,10 @@
     - name: Delete the test file
       file:
         path: /home/golan/Documents/test2.py
+        state: absent
+    
+    #TODO add variable to the file path
+    - name: Delete the geckodrive file
+      file:
+        path: /usr/local/bin/geckodriver
         state: absent
