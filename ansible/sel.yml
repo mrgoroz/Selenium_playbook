@@ -3,28 +3,37 @@
   hosts: localhost
   tasks:
 
-    - name: install selenium in python
+    #TODO replace with the pip module
+    - name: Install selenium in python
       command: pip3 install selenium
-      register: res
 
+    #TODO replace with the package module
     - name: Install list of packages
       apt: name={{item}} state=present
       with_items:
           - firefox
 
+    #TODO add a var instead of the selenium path
     - name: Download and unarchive Selenium
       unarchive:
         src: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
         dest: /usr/local/bin
         remote_src: yes
     
+    #TODO add a var instead of the selenium path 
     - name: Ansible delete file
       file:
         path: /home/golan/Documents/geckodriver-v0.24.0-linux64.tar.gz
         state: absent
 
+    #TODO add vars to values in this command
     - name: Copy file to server
-      copy: src=/home/golan/Documents/test.py dest=/home/golan/Documents/test2.py owner=golan group=golan mode=755
+      copy: 
+        src: /home/golan/Documents/test.py 
+        dest: /home/golan/Documents/test2.py
+        owner: golan 
+        group: golan 
+        mode: 755
 
     - name: Execute script   
       command: python3 /home/golan/Documents/test2.py
