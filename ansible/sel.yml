@@ -7,7 +7,7 @@
     - name: Install Selenium package in python
       pip: 
         name: selenium
-      executable: pip-3
+      executable: pip-3.3
       
     - name: Install list of packages
       package: name={{item}} state=present
