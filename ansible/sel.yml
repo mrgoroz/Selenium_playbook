@@ -3,9 +3,12 @@
   hosts: localhost
   tasks:
 
+    #TODO add with_items
     - name: Install selenium in python
-      pip:
+      pip: 
         name: selenium
+      executable: pip-3
+      
 
     #TODO replace with the package module
     - name: Install list of packages
