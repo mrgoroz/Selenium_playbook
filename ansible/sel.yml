@@ -73,7 +73,7 @@
         state: absent
     
     #TODO add variable to the file path
-    - name: Delete the geckodrive file
+    - name: Delete the geckodriver file
       file:
         path: /usr/local/bin/geckodriver
         state: absent
