@@ -58,7 +58,6 @@
         group: "{{ test_group }}"
         mode: 0777
 
-    #TODO delete this folder after the playbook is done
     - name: See the current user  
       command: id
       become: yes
@@ -69,7 +68,7 @@
 
     #TODO problem executing the script- possibly problem with permissons
     - name: Execute script   
-      command: python3 /home/golan/Documents/test2.py
+      command: python3 "{{ test_dest }}"
       #register: out
       ignore_errors: yes
 
