@@ -4,6 +4,11 @@
     slave_machine: localhost
     gecko_driver_path: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
     gecko_driver_version: geckodriver-v0.24.0-linux64.tar.gz
+    test_src: /home/golan/Documents/test.py
+    test_dest: /home/golan/Documents/test2.py
+    test_owner: golan 
+    test_group: golan 
+
   hosts: "{{ slave_machine }}"
   tasks:
 
@@ -40,19 +45,17 @@
         group: golan
         mode: 0777 
 
-    #TODO add a var instead of the selenium path 
     - name: Ansible delete file
       file:
         path: /home/golan/Documents/"{{ gecko_driver_version }}"
         state: absent
 
-    #TODO add vars to values in this command
-    - name: Copy file to server
+    - name: Copy test file to server
       copy: 
-        src: /home/golan/Documents/test.py 
-        dest: /home/golan/Documents/test2.py
-        owner: golan 
-        group: golan 
+        src: "{{ test_src }}"
+        dest: "{{ test_dest }}"
+        owner: "{{ test_owner }}"
+        group: "{{ test_group }}"
         mode: 0777
 
     #TODO delete this folder after the playbook is done
