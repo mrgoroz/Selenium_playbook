@@ -1,23 +1,24 @@
 ---
 - name: Setting infrastructure for selenium testing with python
   vars:
-    slave_machine: localhost
+    slave_machines: localhost
     gecko_driver_path: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
     gecko_driver_version: geckodriver-v0.24.0-linux64.tar.gz
     test_src: /home/golan/Documents/test.py
     test_dest: /home/golan/Documents/test2.py
     test_owner: golan 
     test_group: golan 
+    pip_version: pip-3.3
+    become_method: su
 
-  hosts: "{{ slave_machine }}"
+  hosts: "{{ slave_machines }}"
+  
   tasks:
 
-    - name: Install list of python packages using pip3
+    - name: Install list of python packages using pip
       pip: name={{item}}
       with_items:
-        - selenium
-      vars:
-        pip_version: pip-3.3
+        - selenium        
       executable: "{{ pip_version }}"
       
     - name: Install list of packages
@@ -28,7 +29,6 @@
     - name: Download and unarchive Selenium
       become: true
       become_user: root
-      become_method: su
       unarchive:
         src: "{{ gecko_driver_path }}"
         dest: /usr/local/bin
@@ -40,7 +40,6 @@
         path: /usr/local/bin/geckodriver
         # become: true
         # become_user: root
-        # become_method: su
         owner: golan
         group: golan
         mode: 0777 
@@ -67,9 +66,8 @@
       ignore_errors: yes
 
     #TODO problem executing the script- possibly problem with permissons
-    - name: Execute script   
+    - name: Execute the test script   
       command: python3 "{{ test_dest }}"
-      #register: out
       ignore_errors: yes
 
     - debug: var=out.stdout
