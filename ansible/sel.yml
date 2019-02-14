@@ -3,6 +3,7 @@
   vars:
     slave_machine: localhost
     gecko_driver_path: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+    gecko_driver_version: geckodriver-v0.24.0-linux64.tar.gz
   hosts: "{{ slave_machine }}"
   tasks:
 
@@ -42,7 +43,7 @@
     #TODO add a var instead of the selenium path 
     - name: Ansible delete file
       file:
-        path: /home/golan/Documents/geckodriver-v0.24.0-linux64.tar.gz
+        path: /home/golan/Documents/"{{ gecko_driver_version }}"
         state: absent
 
     #TODO add vars to values in this command
