@@ -1,26 +1,30 @@
 ---
 - name: Setting infrastructure for selenium testing with python
-  hosts: localhost
+  vars:
+    slave_machine: localhost
+    gecko_driver_path: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+  hosts: "{{ slave_machine }}"
   tasks:
 
-    #TODO add with_items
-    - name: Install Selenium package in python
-      pip: 
-        name: selenium
-      executable: pip-3.3
+    - name: Install list of python packages using pip3
+      pip: name={{item}}
+      with_items:
+        - selenium
+      vars:
+        pip_version: pip-3.3
+      executable: "{{ pip_version }}"
       
     - name: Install list of packages
       package: name={{item}} state=present
       with_items:
           - firefox
 
-    #TODO add a var instead of the selenium path
     - name: Download and unarchive Selenium
       become: true
       become_user: root
       become_method: su
       unarchive:
-        src: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+        src: "{{ gecko_driver_path }}"
         dest: /usr/local/bin
         remote_src: yes
         mode: 0777
