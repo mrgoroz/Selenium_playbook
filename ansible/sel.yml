@@ -45,7 +45,7 @@
         group: golan
         mode: 0777 
 
-    - name: Ansible delete file
+    - name: Delete the driver tar file
       file:
         path: /home/golan/Documents/"{{ gecko_driver_version }}"
         state: absent
@@ -67,7 +67,7 @@
       register: out
       ignore_errors: yes
 
-    #TODO problem executing the script- possibly problem with perms
+    #TODO problem executing the script- possibly problem with permissons
     - name: Execute script   
       command: python3 /home/golan/Documents/test2.py
       #register: out
@@ -75,13 +75,11 @@
 
     - debug: var=out.stdout
     
-    #TODO add variable to the file path
     - name: Delete the test file
       file:
-        path: /home/golan/Documents/test2.py
+        path: "{{ test_dest }}"
         state: absent
     
-    #TODO add variable to the file path
     - name: Delete the geckodriver file
       file:
         path: /usr/local/bin/geckodriver
