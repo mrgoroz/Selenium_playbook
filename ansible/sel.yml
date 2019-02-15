@@ -1,6 +1,7 @@
 ---
 - name: Setting infrastructure for selenium testing with python
   vars:
+
     slave_machines: localhost
     gecko_driver_path: https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
     gecko_driver_version: geckodriver-v0.24.0-linux64.tar.gz
@@ -15,6 +16,9 @@
   
   tasks:
 
+    - name: Check connectivity to the slave machines
+      ping: "{{ slave_machines }}"
+
     - name: Install list of python packages using pip
       pip: name={{item}}
       with_items:
@@ -26,6 +30,7 @@
       with_items:
           - firefox
 
+    #TODO divide this step to 2 steps
     - name: Download and unarchive Selenium
       become: true
       become_user: root
@@ -60,8 +65,8 @@
     - name: See the current user  
       command: id
       become: yes
-      become_user: golan
-      become_method: su
+      become_user: root
+      # become_method: su
       register: out
       ignore_errors: yes
 
