@@ -8,4 +8,6 @@ Ansible Playbook to prepare an environment for Selenium testing and running a sc
 
 # Instructions
 1. Install ansible
-2. Go to the folder where this project is and run: ansible-playbook sel.yml
+2. Change the Sel.yml file vars to your environment
+3. Change the test.py file to run your test
+4. Go to the folder where this project is and run: ansible-playbook sel.yml
