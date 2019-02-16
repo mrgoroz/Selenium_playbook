@@ -30,24 +30,26 @@
       with_items:
           - firefox
 
-    #TODO divide this step to 2 steps
-    - name: Download and unarchive Selenium
-      become: true
-      become_user: root
-      unarchive:
-        src: "{{ gecko_driver_path }}"
-        dest: /usr/local/bin
-        remote_src: yes
+    - name: Download gecko_driver tar
+      get_url:
+        url: "{{ gecko_driver_path }}"
+        dest: /home/golan/Documents/{{ gecko_driver_version }}
         mode: 0777
 
-    - name: Change the geckodriver permissions
-      file:
-        path: /usr/local/bin/geckodriver
-        # become: true
-        # become_user: root
-        owner: golan
-        group: golan
-        mode: 0777 
+    - name: Extract gecko_driver into /usr/local/bin/
+      unarchive:
+        src: /home/golan/Documents/{{ gecko_driver_version }}
+        dest: /usr/local/bin/
+        mode: 0777
+
+    # - name: Change the geckodriver permissions
+    #   file:
+    #     path: /usr/local/bin/geckodriver
+    #     # become: true
+    #     # become_user: root
+    #     owner: golan
+    #     group: golan
+    #     mode: 0777 
 
     - name: Delete the driver tar file
       file:
@@ -65,7 +67,7 @@
     - name: See the current user  
       command: id
       become: yes
-      become_user: root
+      become_user: golan
       # become_method: su
       register: out
       ignore_errors: yes
@@ -73,6 +75,8 @@
     #TODO problem executing the script- possibly problem with permissons
     - name: Execute the test script   
       command: python3 "{{ test_dest }}"
+      become: yes
+      become_user: root
       ignore_errors: yes
 
     - debug: var=out.stdout
